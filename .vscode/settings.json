@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "mach_time.h": "c",
+        "__locale": "cpp",
+        "bitset": "cpp",
+        "netif.h": "c",
+        "ip6.h": "c",
+        "ip6_addr.h": "c",
+        "tcpbase.h": "c",
+        "mem.h": "c",
+        "locale": "cpp"
+    }
+}
