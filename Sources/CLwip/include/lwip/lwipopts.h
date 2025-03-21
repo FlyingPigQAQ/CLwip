@@ -2,9 +2,8 @@
 #define lwipopts_h
 #define LWIP_IPV6 0
 #define LWIP_DEBUG 1
-// #define MEM_ALIGNMENT 4 
-#define MEM_SIZE (1024 * 1024*10)
-
+#define LWIP_TCP_SACK_OUT 1
+// #define TCP_FAST_INTERVAL 50
 
 #define icmp6_hdr LWIP_icmp6_hdr
 /**
@@ -59,7 +58,7 @@
  * already use it.
  */
 #ifndef MEM_LIBC_MALLOC
-#define MEM_LIBC_MALLOC                 1
+#define MEM_LIBC_MALLOC                 0
 #endif
 
 /**
@@ -85,7 +84,7 @@
  * a lot of data that needs to be copied, this should be set high.
  */
 #ifndef MEM_SIZE
-#define MEM_SIZE                        512000
+#define MEM_SIZE                        524288
 #endif
 
 /**
@@ -179,7 +178,7 @@
  * this should be set high.
  */
 #ifndef MEMP_NUM_PBUF
-#define MEMP_NUM_PBUF                   16
+#define MEMP_NUM_PBUF                   1024
 #endif
 
 /**
@@ -220,7 +219,7 @@
  * (requires the LWIP_TCP option)
  */
 #ifndef MEMP_NUM_TCP_SEG
-#define MEMP_NUM_TCP_SEG                64
+#define MEMP_NUM_TCP_SEG                1024
 #endif
 
 /**
@@ -367,7 +366,7 @@
  * PBUF_POOL_SIZE: the number of buffers in the pbuf pool.
  */
 #ifndef PBUF_POOL_SIZE
-#define PBUF_POOL_SIZE                  500
+#define PBUF_POOL_SIZE                  8192
 #endif
 
 /*
@@ -931,6 +930,7 @@
  * TCP_SND_BUF: TCP sender buffer space (bytes).
  * To achieve good performance, this should be at least 2 * TCP_MSS.
  */
+#define TCP_SND_BUF                     0xFFFF
 #ifndef TCP_SND_BUF
 #define TCP_SND_BUF                     TCP_WND
 #endif
@@ -982,7 +982,7 @@
  * TCP_LISTEN_BACKLOG: Enable the backlog option for tcp listen pcb.
  */
 #ifndef TCP_LISTEN_BACKLOG
-#define TCP_LISTEN_BACKLOG              0
+#define TCP_LISTEN_BACKLOG              1
 #endif
 
 /**
@@ -1059,6 +1059,7 @@
  * designed to accomodate single full size TCP frame in one pbuf, including
  * TCP_MSS, IP header, and link header.
  */
+// #define PBUF_POOL_BUFSIZE                512*1024
 #ifndef PBUF_POOL_BUFSIZE
 #define PBUF_POOL_BUFSIZE               LWIP_MEM_ALIGN_SIZE(TCP_MSS+40+PBUF_LINK_HLEN)
 #endif

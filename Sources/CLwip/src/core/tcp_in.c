@@ -1555,6 +1555,11 @@ tcp_receive(struct tcp_pcb *pcb)
         pcb->rcv_wnd -= tcplen;
 
         tcp_update_rcv_ann_wnd(pcb);
+        /**CLwip修改 */
+        if (pcb->rcv_wnd < TCP_MSS || pcb->rcv_wnd == 0) {
+          /* Force immediate ACK when window is very small or zero */
+          tcp_ack_now(pcb);
+        }
 
         /* If there is data in the segment, we make preparations to
            pass this up to the application. The ->recv_data variable
@@ -1592,6 +1597,11 @@ tcp_receive(struct tcp_pcb *pcb)
           pcb->rcv_wnd -= TCP_TCPLEN(cseg);
 
           tcp_update_rcv_ann_wnd(pcb);
+          /** CLwip修改 */
+          if (pcb->rcv_wnd < TCP_MSS || pcb->rcv_wnd == 0) {
+          /* Force immediate ACK when window is very small or zero */
+           tcp_ack_now(pcb);
+         }
 
           if (cseg->p->tot_len > 0) {
             /* Chain this pbuf onto the pbuf that we will pass to
@@ -1631,9 +1641,12 @@ tcp_receive(struct tcp_pcb *pcb)
 #endif /* LWIP_TCP_SACK_OUT */
 #endif /* TCP_QUEUE_OOSEQ */
 
-
+        /** CLwip修改 */
         /* Acknowledge the segment(s). */
-        tcp_ack(pcb);
+        // tcp_ack(pcb);
+        if ((pcb->flags & TF_ACK_NOW) == 0) {
+          tcp_ack(pcb);
+        }
 
 #if LWIP_TCP_SACK_OUT
         if (LWIP_TCP_SACK_VALID(pcb, 0)) {
