@@ -2,7 +2,10 @@
 #define lwipopts_h
 #define LWIP_IPV6 0
 #define LWIP_DEBUG 1
-#define LWIP_TCP_SACK_OUT 1
+#define LWIP_DISABLE_TCP_SANITY_CHECKS 1
+// #define LWIP_TCP_SACK_OUT 1
+#define LWIP_WND_SCALE 1
+#define TCP_RCV_SCALE 1
 // #define TCP_FAST_INTERVAL 50
 
 #define icmp6_hdr LWIP_icmp6_hdr
@@ -58,7 +61,7 @@
  * already use it.
  */
 #ifndef MEM_LIBC_MALLOC
-#define MEM_LIBC_MALLOC                 0
+#define MEM_LIBC_MALLOC                 1
 #endif
 
 /**
@@ -84,7 +87,7 @@
  * a lot of data that needs to be copied, this should be set high.
  */
 #ifndef MEM_SIZE
-#define MEM_SIZE                        524288
+#define MEM_SIZE                        1024*1024*30
 #endif
 
 /**
@@ -178,13 +181,14 @@
  * this should be set high.
  */
 #ifndef MEMP_NUM_PBUF
-#define MEMP_NUM_PBUF                   1024
+#define MEMP_NUM_PBUF                   16
 #endif
 
 /**
  * MEMP_NUM_RAW_PCB: Number of raw connection PCBs
  * (requires the LWIP_RAW option)
  */
+#define MEMP_NUM_RAW_PCB              128
 #ifndef MEMP_NUM_RAW_PCB
 #define MEMP_NUM_RAW_PCB                64
 #endif
@@ -201,9 +205,11 @@
 /**
  * MEMP_NUM_TCP_PCB: the number of simulatenously active TCP connections.
  * (requires the LWIP_TCP option)
+ * 
  */
+#define MEMP_NUM_TCP_PCB         128
 #ifndef MEMP_NUM_TCP_PCB
-#define MEMP_NUM_TCP_PCB                64
+#define MEMP_NUM_TCP_PCB               64
 #endif
 
 /**
@@ -211,7 +217,7 @@
  * (requires the LWIP_TCP option)
  */
 #ifndef MEMP_NUM_TCP_PCB_LISTEN
-#define MEMP_NUM_TCP_PCB_LISTEN         8
+#define MEMP_NUM_TCP_PCB_LISTEN         64
 #endif
 
 /**
@@ -219,7 +225,7 @@
  * (requires the LWIP_TCP option)
  */
 #ifndef MEMP_NUM_TCP_SEG
-#define MEMP_NUM_TCP_SEG                1024
+#define MEMP_NUM_TCP_SEG                64
 #endif
 
 /**
@@ -898,6 +904,7 @@
  * TCP_QUEUE_OOSEQ==1: TCP will queue segments that arrive out of order.
  * Define to 0 if your device is low on memory.
  */
+// #define TCP_QUEUE_OOSEQ                 1
 #ifndef TCP_QUEUE_OOSEQ
 #define TCP_QUEUE_OOSEQ                 (LWIP_TCP)
 #endif
@@ -930,7 +937,7 @@
  * TCP_SND_BUF: TCP sender buffer space (bytes).
  * To achieve good performance, this should be at least 2 * TCP_MSS.
  */
-#define TCP_SND_BUF                     0xFFFF
+#define TCP_SND_BUF  1024*1024*8
 #ifndef TCP_SND_BUF
 #define TCP_SND_BUF                     TCP_WND
 #endif
@@ -939,7 +946,6 @@
  * TCP_SND_QUEUELEN: TCP sender buffer space (pbufs). This must be at least
  * as much as (2 * TCP_SND_BUF/TCP_MSS) for things to work.
  */
-#define TCP_SND_QUEUELEN        100
 #ifndef TCP_SND_QUEUELEN
 #define TCP_SND_QUEUELEN                TCP_SNDQUEUELEN_OVERFLOW
 #endif
@@ -982,7 +988,7 @@
  * TCP_LISTEN_BACKLOG: Enable the backlog option for tcp listen pcb.
  */
 #ifndef TCP_LISTEN_BACKLOG
-#define TCP_LISTEN_BACKLOG              1
+#define TCP_LISTEN_BACKLOG              10
 #endif
 
 /**

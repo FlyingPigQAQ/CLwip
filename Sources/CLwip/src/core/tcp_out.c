@@ -391,22 +391,22 @@ tcp_write_checks(struct tcp_pcb *pcb, u16_t len)
  * @return ERR_OK if enqueued, another err_t on error
  */
 err_t
-tcp_write(struct tcp_pcb *pcb, const void *arg, u16_t len, u8_t apiflags)
+tcp_write(struct tcp_pcb *pcb, const void *arg, u32_t len, u8_t apiflags)
 {
   struct pbuf *concat_p = NULL;
   struct tcp_seg *last_unsent = NULL, *seg = NULL, *prev_seg = NULL, *queue = NULL;
-  u16_t pos = 0; /* position in 'arg' data */
+  u32_t pos = 0; /* position in 'arg' data */
   u16_t queuelen;
   u8_t optlen;
   u8_t optflags = 0;
 #if TCP_OVERSIZE
-  u16_t oversize = 0;
-  u16_t oversize_used = 0;
+  u32_t oversize = 0;
+  u32_t oversize_used = 0;
 #if TCP_OVERSIZE_DBGCHECK
   u16_t oversize_add = 0;
 #endif /* TCP_OVERSIZE_DBGCHECK*/
 #endif /* TCP_OVERSIZE */
-  u16_t extendlen = 0;
+  u32_t extendlen = 0;
 #if TCP_CHECKSUM_ON_COPY
   u16_t concat_chksum = 0;
   u8_t concat_chksum_swapped = 0;

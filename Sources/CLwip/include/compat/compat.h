@@ -5,4 +5,5 @@
 
 u16_t tcp_sndbuf_c(struct tcp_pcb *pcb);
 void tcp_accepted_c(struct tcp_pcb *pcb);
+void tcp_nagle_disable_c(struct tcp_pcb *pcb);
 #endif

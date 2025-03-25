@@ -8,6 +8,8 @@
         "ip6_addr.h": "c",
         "tcpbase.h": "c",
         "mem.h": "c",
-        "locale": "cpp"
+        "locale": "cpp",
+        "atomic": "c",
+        "cstring": "c"
     }
 }
